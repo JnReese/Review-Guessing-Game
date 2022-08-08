@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&family=Kanit&family=Lexend+Deca:wght@200;500&display=swap");
+
+.review__container {
+  display: flex;
+  flex-direction: row;
+  margin: 40px;
+}
+
+.buttons__container {
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  margin: 25px;
+}
+
+.card {
+  overflow-y: scroll;
+  width: 33%;
+  height: 300px;
+}
+
+h1 {
+  font-family: "Josefin Sans", sans-serif;
+  font-family: "Kanit", sans-serif;
+  font-family: "Lexend Deca", sans-serif;
+  font-size: 3em !important; /* Bulma override */
+}
+
+.title {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.hidden {
+  display: none;
+}
