@@ -6,13 +6,15 @@
   margin: 40px;
 }
 
-.buttons__container {
+#buttons__container {
   display: flex;
   justify-content: center;
 }
 
 .button {
   margin: 25px;
+  font-size: 40px;
+  font-weight: 700;
 }
 
 .card {
@@ -42,4 +44,21 @@ h1 {
   display: flex;
   justify-content: center;
   display: none;
+}
+
+.endGame {
+  display: none;
+  justify-content: center;
+  flex-direction: column;
+}
+.endGame > button {
+  display: flex;
+  margin: 0 auto;
+  width: 25%;
+}
+
+.endGameText {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }

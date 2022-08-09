@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   const solvedGames = [];
+  const clone = structuredClone(reviewMap);
 
   const shuffleArray = (arr) => {
     return arr
@@ -45,9 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   const onAnswerButtonClick = (correctAnswer) => {
-    console.log("hi");
     const answerButtons = document.querySelectorAll(".answer-button");
-    //set button color
     for (let i = 0; i < answerButtons.length; i++) {
       if (answerButtons[i].innerText === correctAnswer) {
         answerButtons[i].style.backgroundColor = "green";
@@ -55,7 +54,6 @@ document.addEventListener("DOMContentLoaded", function () {
         answerButtons[i].style.backgroundColor = "red";
       }
     }
-    // adds correct acswer to solved games array
   };
 
   const nextButtonClicked = (currentAnswer) => {
@@ -76,10 +74,23 @@ document.addEventListener("DOMContentLoaded", function () {
         onAnswerButtonClick(currentAnswer), nextButtonClicked(currentAnswer);
       });
       answerButton.classList.add("answer-button");
+      answerButton.classList.add("button");
 
       answerButton.innerText = answer;
       answerButtonsContainer.appendChild(answerButton);
     });
+  };
+
+  const createResetButton = () => {
+    let resetGameButton = document.querySelector(".resetGame");
+    let restartGame = document.querySelector(".endGame");
+    restartGame.style.display = "flex";
+    resetGameButton.addEventListener("click", () => {
+      Object.assign(reviewMap, clone);
+      newGame(reviewMap);
+      restartGame.innerText = "";
+    });
+    console.log(reviewMap);
   };
 
   const newGame = (gamesObject) => {
@@ -99,9 +110,8 @@ document.addEventListener("DOMContentLoaded", function () {
       createButtons(answerOptions, currentAnswer);
       solvedGames.push(currentAnswer);
     } else {
-      console.log("Out Of Reviews");
+      createResetButton();
     }
-
     delete reviewMap[solvedGames.map((el) => el)];
   };
 
