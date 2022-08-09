@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     terraria: terraria,
   };
 
-  const solvedGames = [];
+  let solvedGames = [];
   const clone = structuredClone(reviewMap);
 
   const shuffleArray = (arr) => {
@@ -57,10 +57,13 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   const nextButtonClicked = (currentAnswer) => {
+    let restartGameContainer = document.querySelector(".endGame");
     const nextButton = document.querySelector(".next__button");
     delete reviewMap[currentAnswer];
-
-    nextButton.style.display = "flex";
+    console.log(restartGameContainer.style.display !== "flex" || Object.keys(reviewMap).length > 4);
+    if (restartGameContainer.style.display !== "flex" || Object.keys(reviewMap).length > 4) {
+      nextButton.style.display = "flex";
+    }
     nextButton.addEventListener("click", () => {
       newGame(reviewMap), (nextButton.style.display = "none");
     });
@@ -81,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   };
 
-  const createResetButton = () => {
+  const resetButtonLogic = () => {
     let resetGameButton = document.querySelector(".resetGame");
     let restartGame = document.querySelector(".endGame");
     restartGame.style.display = "flex";
@@ -110,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
       createButtons(answerOptions, currentAnswer);
       solvedGames.push(currentAnswer);
     } else {
-      createResetButton();
+      resetButtonLogic();
     }
     delete reviewMap[solvedGames.map((el) => el)];
   };
