@@ -37,3 +37,9 @@ h1 {
 .hidden {
   display: none;
 }
+
+.next__button {
+  display: flex;
+  justify-content: center;
+  display: none;
+}

@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   const solvedGames = [];
+
   const shuffleArray = (arr) => {
     return arr
       .map((value) => ({ value, sort: Math.random() }))
@@ -43,20 +44,66 @@ document.addEventListener("DOMContentLoaded", function () {
     return shuffleArray([correctTitle, ...getRandomItemsFromArray(titlesWithoutAnswer, 2)]);
   };
 
-  const playGame = (gamesObject) => {
-    let firstReview = document.querySelector(".cardOne");
-    let secondReview = document.querySelector(".cardTwo");
-    let thirdReview = document.querySelector(".cardThree");
-    let grabbedGame = getRandom(Object.keys(gamesObject));
-    let currentAnswer = grabbedGame;
-    firstReview.textContent = reviewMap[grabbedGame][0].replace(/(^|\s)\S/g, (l) => l.toUpperCase());
-    secondReview.textContent = reviewMap[grabbedGame][1].replace(/(^|\s)\S/g, (l) => l.toUpperCase());
-    thirdReview.textContent = reviewMap[grabbedGame][2].replace(/(^|\s)\S/g, (l) => l.toUpperCase());
-
-    grabThreeGameTitles(grabbedGame);
-
-    //delete the game
+  const onAnswerButtonClick = (correctAnswer) => {
+    console.log("hi");
+    const answerButtons = document.querySelectorAll(".answer-button");
+    //set button color
+    for (let i = 0; i < answerButtons.length; i++) {
+      if (answerButtons[i].innerText === correctAnswer) {
+        answerButtons[i].style.backgroundColor = "green";
+      } else {
+        answerButtons[i].style.backgroundColor = "red";
+      }
+    }
+    // adds correct acswer to solved games array
   };
 
-  playGame(reviewMap);
+  const nextButtonClicked = (currentAnswer) => {
+    const nextButton = document.querySelector(".next__button");
+    delete reviewMap[currentAnswer];
+
+    nextButton.style.display = "flex";
+    nextButton.addEventListener("click", () => {
+      newGame(reviewMap), (nextButton.style.display = "none");
+    });
+  };
+
+  const createButtons = (allAnswers, currentAnswer) => {
+    const answerButtonsContainer = document.querySelector("#buttons__container");
+    allAnswers.forEach((answer) => {
+      const answerButton = document.createElement("button");
+      answerButton.addEventListener("click", () => {
+        onAnswerButtonClick(currentAnswer), nextButtonClicked(currentAnswer);
+      });
+      answerButton.classList.add("answer-button");
+
+      answerButton.innerText = answer;
+      answerButtonsContainer.appendChild(answerButton);
+    });
+  };
+
+  const newGame = (gamesObject) => {
+    if (Object.keys(reviewMap).length > 3) {
+      let firstReview = document.querySelector(".cardOne");
+      let secondReview = document.querySelector(".cardTwo");
+      let thirdReview = document.querySelector(".cardThree");
+      let grabbedGame = getRandom(Object.keys(gamesObject));
+      let currentAnswer = grabbedGame;
+
+      firstReview.textContent = reviewMap[grabbedGame][0].replace(/(^|\s)\S/g, (l) => l.toUpperCase());
+      secondReview.textContent = reviewMap[grabbedGame][1].replace(/(^|\s)\S/g, (l) => l.toUpperCase());
+      thirdReview.textContent = reviewMap[grabbedGame][2].replace(/(^|\s)\S/g, (l) => l.toUpperCase());
+      const answerButtonsContainer = document.querySelector("#buttons__container");
+      answerButtonsContainer.innerText = "";
+      const answerOptions = grabThreeGameTitles(grabbedGame);
+      createButtons(answerOptions, currentAnswer);
+      solvedGames.push(currentAnswer);
+    } else {
+      console.log("Out Of Reviews");
+    }
+
+    delete reviewMap[solvedGames.map((el) => el)];
+  };
+
+  newGame(reviewMap);
 });
